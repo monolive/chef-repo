@@ -2,7 +2,7 @@ name "haproxy"
 description "HA Proxy Server"
 all_env = [ 
   "role[base]",
-  "recipe[haproxy]"
+  "recipe[haproxy::app_lb]"
 ]
 
 run_list(all_env)
