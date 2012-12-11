@@ -1,5 +1,6 @@
 name "webserver"
 description "Web server role"
+
 all_env = [ 
   "role[base]",
   "recipe[apache2]"
@@ -12,3 +13,5 @@ env_run_lists(
   "prod" => all_env,
   "dev" => all_env,
 )
+
+default_attributes "apache" => { "listen_ports" => "8080" }
