@@ -7,21 +7,26 @@
 
 include_recipe"yum::yum" 
 
-yum_key "RPM-GPG-KEY-percona" do 
-  url "http://www.percona.com/downloads/percona-release/RPM-GPG-KEY-percona" 
+key         = node['percona']['key']
+key_url     = node['percona']['key_url']
+release_url = node['percona']['release_url']
+testing_url = node['percona']['testing_url']
+
+yum_key "#{key}" do 
+  url "#{key_url}"
   action :add 
 end
 
 yum_repository "percona" do
   description "Percona RPM repository"
-  url "http://repo.percona.com/centos/$releasever/os/$basearch/"
-  key "RPM-GPG-KEY-percona"
+  url "#{release_url}"
+  key "#{key}"
   action :add
 end
 
 yum_repository "percona-testing" do
   description "Percona testing RPM Repository"
-  url "http://repo.percona.com/testing/centos/$releasever/os/$basearch/"
-  key "RPM-GPG-KEY-percona"
+  url "#{testing_url}"
+  key "#{key}"
   action :add
 end
