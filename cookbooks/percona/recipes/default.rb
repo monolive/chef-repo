@@ -45,6 +45,6 @@ directory "#{node['percona']['mysql_data']}" do
 end
 
 # Initialize DB
-execute "mysql_install_db --datadir=#{node['percona']['mysql_data']} --user=#{node['percona']['user']}" do
+execute "mysql_install_db --datadir=#{node['percona']['mysql_data']} --user=#{node['percona']['mysql_user']}" do
   creates "#{node['percona']['mysql_data']}/mysql"
 end
