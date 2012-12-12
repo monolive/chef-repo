@@ -15,4 +15,5 @@ default['percona']['testing_url'] = "http://repo.percona.com/testing/centos/$rel
 default['percona']['mysql_data'] = "/percona/data"
 default['percona']['mysql_user'] = "mysql"
 default['percona']['cluster_name'] = "mycluster"
+default['percona']['wsrep_port'] = "4567"
 
