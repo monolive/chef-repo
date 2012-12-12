@@ -55,8 +55,8 @@ end
 template "/etc/my.cnf" do
   source "my.cnf.erb"
   mode 0644
-  owner root
-  group root
+  owner "root"
+  group "root"
   variables(
     :cluster_members => cluster_members
   )
