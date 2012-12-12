@@ -22,4 +22,11 @@ when "redhat", "centos"
     url testing_url
     action :add
   end
+
+  # Install packages
+  package "Percona-XtraDB-Cluster-server" 
+  package "Percona-XtraDB-Cluster-client"
 end
+
+
+
