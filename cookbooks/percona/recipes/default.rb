@@ -44,4 +44,5 @@ directory "#{node['percona']['mysql_data']}" do
   action :create
 end
 
-
+# Initialize DB
+execute "mysql_install_db --datadir=#{node['percona']['mysql_data']} --user=#{node['percona']['user']}"
