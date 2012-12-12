@@ -23,10 +23,24 @@ when "redhat", "centos"
     action :add
   end
 
-  # Install packages
-  package "Percona-XtraDB-Cluster-server" 
-  package "Percona-XtraDB-Cluster-client"
 end
 
+# remove mysql-libs as it conflict w/ percona server pkg
+# it will also remove redhat-lsb as a dependency
+# we will reinstall it afterward
+package "mysql-libs" do 
+  action :remove
+end
+
+package "Percona-XtraDB-Cluster-server" 
+package "Percona-XtraDB-Cluster-client"
+
+# Create data directory
+directory "#{node['percona']['mysql_data']}" do
+  owner "root"
+  group "root"
+  recursive true
+  action :create
+end
 
 
