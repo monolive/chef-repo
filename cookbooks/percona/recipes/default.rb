@@ -34,7 +34,7 @@ end
 
 package "Percona-XtraDB-Cluster-server" 
 package "Percona-XtraDB-Cluster-client"
-packahe "redhat-lsb"
+package "redhat-lsb"
 
 # Create data directory
 directory "#{node['percona']['mysql_data']}" do
