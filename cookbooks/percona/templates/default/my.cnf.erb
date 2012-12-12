@@ -1,0 +1,18 @@
+[mysqld_safe]
+wsrep_urls=gcomm://10.93.46.58:4567,gcomm://10.93.46.59:4567,gcomm://10.93.46.60:4567,gcomm://
+
+[mysqld]
+datadir=<%= node['percona']['mysql_data'] %>
+user=<%= node['percona']['mysql_user'] %>
+
+binlog_format=ROW
+
+wsrep_provider=/usr/lib64/libgalera_smm.so
+
+wsrep_slave_threads=2
+wsrep_cluster_name=<%= node['percona']['cluster_name'] %>
+wsrep_sst_method=rsync
+wsrep_node_name=node1
+
+innodb_locks_unsafe_for_binlog=1
+innodb_autoinc_lock_mode=2
