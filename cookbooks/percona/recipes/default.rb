@@ -25,8 +25,9 @@ when "redhat", "centos"
 end
 
 # Create list of server which are using percona recipe and sharing clustername
-cluster_members = search("node", "role:percona AND node:#{node['percona']['cluster_name']}")
-toto = search("node", "role:percona")
+cluster_members = search("node", "role:percona")
+toto = node.default.percona.include?(node['percona']['cluster_name'])
+
 # remove mysql-libs as it conflict w/ percona server pkg
 # it will also remove redhat-lsb as a dependency
 # we will reinstall it afterward
