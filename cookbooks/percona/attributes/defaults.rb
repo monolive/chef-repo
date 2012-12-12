@@ -14,4 +14,5 @@ default['percona']['testing_url'] = "http://repo.percona.com/testing/centos/$rel
 # Configuration
 default['percona']['mysql_data'] = "/percona/data"
 default['percona']['mysql_user'] = "mysql"
+default['percona']['cluster_name'] = "mycluster"
 
