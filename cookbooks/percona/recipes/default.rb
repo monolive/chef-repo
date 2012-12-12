@@ -22,8 +22,10 @@ when "redhat", "centos"
     url testing_url
     action :add
   end
-
 end
+
+# Create list of server which are using percona recipe and sharing clustername
+cluster_members = search("node", "recipe:percona AND node:#{node['percona']['cluster_name']}")
 
 # remove mysql-libs as it conflict w/ percona server pkg
 # it will also remove redhat-lsb as a dependency
@@ -48,3 +50,15 @@ end
 execute "mysql_install_db --datadir=#{node['percona']['mysql_data']} --user=#{node['percona']['mysql_user']}" do
   creates "#{node['percona']['mysql_data']}/mysql"
 end
+
+# Generate configuration
+template "/etc/my.cnf" do
+  source "my.cnf.erb"
+  mode 0644
+  owner root
+  group root
+  variables(
+    :cluster_members => cluster_members
+  )
+end
+
