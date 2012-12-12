@@ -58,7 +58,8 @@ template "/etc/my.cnf" do
   owner "root"
   group "root"
   variables(
-    :cluster_members => cluster_members
+    :cluster_members => cluster_members,
+    :toto => toto
   )
 end
 
