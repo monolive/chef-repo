@@ -1,5 +1,5 @@
 [mysqld_safe]
-wsrep_urls=gcomm://10.93.46.58:4567,gcomm://10.93.46.59:4567,gcomm://10.93.46.60:4567,gcomm://
+wsrep_urls=gcomm://<%= cluster_members %>
 
 [mysqld]
 datadir=<%= node['percona']['mysql_data'] %>
