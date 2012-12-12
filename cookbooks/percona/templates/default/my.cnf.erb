@@ -1,6 +1,8 @@
 [mysqld_safe]
 wsrep_urls=gcomm://<%= @cluster_members %>
 
+toto <%= @toto %>
+
 [mysqld]
 datadir=<%= node['percona']['mysql_data'] %>
 user=<%= node['percona']['mysql_user'] %>
