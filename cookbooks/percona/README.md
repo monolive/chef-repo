@@ -20,7 +20,4 @@ recipe[percona] should install a percona node
 
 Known problems
 ==============
-We are using wsrep_urls instead of wsrep_cluster_address
-
-It's not starting cluster automatically ( mysqld_safe is suggested in article)
-
+We should probably provide username / password for replication using an encrypted data bag
