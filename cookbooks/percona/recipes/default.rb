@@ -58,7 +58,7 @@ package "Percona-XtraDB-Cluster-client"
 package "redhat-lsb"
 
 # Create data directory
-directory "#{node['percona']['mysql_data']}" do
+directory "#{node['percona']['datadir']}" do
   owner "root"
   group "root"
   recursive true
@@ -66,8 +66,8 @@ directory "#{node['percona']['mysql_data']}" do
 end
 
 # Initialize DB
-execute "mysql_install_db --datadir=#{node['percona']['mysql_data']} --user=#{node['percona']['mysql_user']}" do
-  creates "#{node['percona']['mysql_data']}/mysql"
+execute "mysql_install_db --datadir=#{node['percona']['datadir']} --user=#{node['percona']['user']}" do
+  creates "#{node['percona']['datadir']}/mysql"
 end
 
 # Generate configuration
