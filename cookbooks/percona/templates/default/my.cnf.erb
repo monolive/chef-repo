@@ -12,7 +12,7 @@ wsrep_provider=/usr/lib64/libgalera_smm.so
 wsrep_slave_threads=2
 wsrep_cluster_name=<%= node['percona']['cluster_name'] %>
 wsrep_sst_method=rsync
-wsrep_node_name=node1
+wsrep_node_name=<%= node.name %>
 
 innodb_locks_unsafe_for_binlog=1
 innodb_autoinc_lock_mode=2
