@@ -12,8 +12,13 @@ default['percona']['release_url'] = "http://repo.percona.com/centos/$releasever/
 default['percona']['testing_url'] = "http://repo.percona.com/testing/centos/$releasever/os/$basearch/"
 
 # Configuration
-default['percona']['mysql_data'] = "/percona/data"
-default['percona']['mysql_user'] = "mysql"
-default['percona']['cluster_name'] = "mycluster"
+default['percona']['user'] = "mysql"
+default['percona']['datadir'] = "/percona/data"
+default['percona']['basedir'] = "/usr"
+default['percona']['socket'] = "/var/lib/mysql/mysql.sock"
+default['percona']['pid-file'] = "mysqld.pid"
+default['percona']['port'] = "3306"
+default['percona']['log-error'] = "error.log"
+default['percona']['wsrep_cluster_name'] = "mycluster"
 default['percona']['wsrep_port'] = "4567"
 
