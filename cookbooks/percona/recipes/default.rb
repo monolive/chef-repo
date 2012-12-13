@@ -27,7 +27,7 @@ end
 # Stealing HAProxy logic
 # Create list of server which are using percona recipe and sharing clustername
 cluster_members = search("node", "role:percona AND percona_cluster_name:#{node['percona']['cluster_name']}") || []
-#cluster_members << node if node.run_list.roles.include?(percona)
+cluster_members << node if node.run_list.roles.include?("percona")
 
 # we prefer connecting via local_ipv4 if
 # pool members are in the same cloud
