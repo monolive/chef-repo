@@ -84,7 +84,8 @@ wsrep_node_address=<%= node.ipaddress %>
 wsrep_cluster_name=<%= node['percona']['wsrep_cluster_name'] %>
 
 # Group communication system handle
-wsrep_cluster_address=<%=  @cluster_members ||= "gcomm://" %>
+wsrep_cluster_address=<%= @cluster_members %>
+
 
 # Human-readable node name (non-unique). Hostname by default.
 #wsrep_node_name=
