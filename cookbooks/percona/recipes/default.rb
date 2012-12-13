@@ -46,6 +46,8 @@ cluster_members.map! do |member|
   end
 end
 
+cluster_members = "gcomm://" if not cluster_members.any?
+
 # remove mysql-libs as it conflict w/ percona server pkg
 # it will also remove redhat-lsb as a dependency
 # we will reinstall it afterward
@@ -77,7 +79,7 @@ template "/etc/my.cnf" do
   owner "root"
   group "root"
   variables(
-    :cluster_members => cluster_members.uniq
+    :cluster_members => cluster_members
   )
 end
 
