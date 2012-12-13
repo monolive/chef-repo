@@ -1,18 +1,179 @@
-[mysqld_safe]
-wsrep_urls=<%= @cluster_members %>
+# All files in this package is subject to the GPL v2 license
+# More information is in the COPYING file in the top directory of this package.
+# Copyright (C) 2011 severalnines.com
 
-[mysqld]
-datadir=<%= node['percona']['mysql_data'] %>
-user=<%= node['percona']['mysql_user'] %>
-
-binlog_format=ROW
-
-wsrep_provider=/usr/lib64/libgalera_smm.so
-
-wsrep_slave_threads=2
-wsrep_cluster_name=<%= node['percona']['cluster_name'] %>
-wsrep_sst_method=rsync
-wsrep_node_name=<%= node.name %>
-
+[MYSQLD]
+user=<%= node['percona']['user'] %>
+basedir=<%= node['percona']['basedir'] %>
+datadir=<%= node['percona']['datadir'] %>
+socket=<%= node['percona']['socket'] %>
+pid-file=<%= node['percona']['pid-file'] %>
+port=<%= node['percona']['port'] %>
+log-error=<%= node['percona']['log-error'] %>
+#log-output=FILE
+#relay-log=relay-bin
+### INNODB OPTIONS 
+innodb-buffer-pool-size=1541M
+innodb-additional-mem-pool-size=20M
+innodb-log-buffer-size=16M
+innodb-flush-log-at-trx_commit=0
+innodb-file-per-table=1
+innodb_data_file_path = ibdata1:100M:autoextend
+## You may want to tune the below depending on number of cores and disk sub
+innodb_read_io_threads=4
+innodb_write_io_threads=4
+#innodb_io_capacity=20000
+#innodb_io_capacity_max=40000
+innodb-doublewrite=1
+innodb_log_file_size=512M
+innodb-log-files-in-group=2
+#innodb-buffer-pool-instances=4
+innodb-thread-concurrency=0
+#innodb-file-format=barracuda
+innodb-flush-method = O_DIRECT
 innodb_locks_unsafe_for_binlog=1
 innodb_autoinc_lock_mode=2
+## avoid statistics update when doing e.g show tables
+innodb_stats_on_metadata=0
+engine-condition-pushdown=1
+
+# CHARACTER SET
+#collation-server = utf8_unicode_ci
+#init-connect='SET NAMES utf8'
+#character-set-server = utf8
+
+# REPLICATION SPECIFIC - GENERAL
+#server-id must be unique across all mysql servers participating in replication.
+#server-id=SERVERID
+#auto_increment_increment=2
+#auto_increment_offset=SERVERID
+# REPLICATION SPECIFIC - MASTER
+binlog_format=ROW
+#log-bin=binlog
+#log-slave-updates=1
+# OTHER THINGS, BUFFERS ETC
+key_buffer_size = 24M
+tmp_table_size = 64M
+max_heap_table_size = 64M
+max-allowed-packet = 512M
+sort-buffer-size = 512K
+read-buffer-size = 256K
+read-rnd-buffer-size = 512K
+#thread-cache-size=1024
+myisam-sort-buffer_size = 8M
+memlock=0
+sysdate-is-now=1
+max-connections=201
+thread-cache-size=512
+query-cache-type = 0
+query-cache-size = 0
+table-open_cache=1024
+lower-case-table-names=0
+##
+## WSREP options
+##
+
+# Full path to wsrep provider library or 'none'
+wsrep_provider=/usr/lib64/libgalera_smm.so
+
+wsrep_node_address=<%= node.ipaddress %>
+# Provider specific configuration options
+#wsrep_provider_options=
+
+# Logical cluster name. Should be the same for all nodes.
+wsrep_cluster_name=<%= node['percona']['wsrep_cluster_name'] %>
+
+# Group communication system handle
+wsrep_cluster_address=<%= @cluster_members %>
+
+# Human-readable node name (non-unique). Hostname by default.
+#wsrep_node_name=
+
+# Address for incoming client connections. Autodetect by default.
+#wsrep_node_incoming_address=
+
+# How many threads will process writesets from other nodes
+# (more than one untested)
+wsrep_slave_threads=1
+
+# DBUG options for wsrep provider
+#wsrep_dbug_option
+
+# Generate fake primary keys for non-PK tables (required for multi-master
+# and parallel applying operation)
+wsrep_certify_nonPK=1
+
+# Location of the directory with data files. Needed for non-mysqldump
+# state snapshot transfers. Defaults to mysql_real_data_home.
+#wsrep_data_home_dir=
+
+# Maximum number of rows in write set
+wsrep_max_ws_rows=131072
+
+# Maximum size of write set
+wsrep_max_ws_size=1073741824
+
+# to enable debug level logging, set this to 1
+wsrep_debug=0
+
+# convert locking sessions into transactions
+wsrep_convert_LOCK_to_trx=0
+
+# how many times to retry deadlocked autocommits
+wsrep_retry_autocommit=1
+
+# change auto_increment_increment and auto_increment_offset automatically
+wsrep_auto_increment_control=1
+
+# replicate myisam
+wsrep_replicate_myisam=1
+# retry autoinc insert, which failed for duplicate key error
+wsrep_drupal_282555_workaround=0
+
+# enable "strictly synchronous" semantics for read operations
+wsrep_causal_reads=0
+
+# Command to call when node status or cluster membership changes.
+# Will be passed all or some of the following options:
+# --status  - new status of this node
+# --uuid    - UUID of the cluster
+# --primary - whether the component is primary or not ("yes"/"no")
+# --members - comma-separated list of members
+# --index   - index of this node in the list
+#wsrep_notify_cmd=
+
+##
+## WSREP State Transfer options
+##
+
+# State Snapshot Transfer method
+# ClusterControl currently DOES NOT support wsrep_sst_method=mysqldump
+wsrep_sst_method=rsync
+
+# Address on THIS node to receive SST at. DON'T SET IT TO DONOR ADDRESS!!!
+# (SST method dependent. Defaults to the first IP of the first interface)
+#wsrep_sst_receive_address=
+
+# SST authentication string. This will be used to send SST to joining nodes.
+# Depends on SST method. For mysqldump method it is root:<root password>
+wsrep_sst_auth=root:redhat
+
+# Desired SST donor name.
+#wsrep_sst_donor=
+
+# Protocol version to use
+# wsrep_protocol_version=
+[MYSQL]
+socket=<%= node['percona']['socket'] %>
+#default-character-set=utf8
+[client]
+socket=<%= node['percona']['socket'] %>
+#default-character-set=utf8
+[mysqldump]
+max-allowed-packet = 512M
+#default-character-set=utf8
+[MYSQLD_SAFE]
+pid-file=<%= node['percona']['pid-file'] %>
+log-error=<%= node['percona']['log-error'] %>
+basedir=<%= node['percona']['basedir'] %>
+datadir=<%= node['percona']['datadir'] %>
