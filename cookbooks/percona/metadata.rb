@@ -1,5 +1,5 @@
 maintainer       "YOUR_COMPANY_NAME"
-maintainer_email "["monoliv@gmail.com"]"
+maintainer_email "[<monoliv@gmail.com>]"
 license          ""
 description      "Installs/Configures percona"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
