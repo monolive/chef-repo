@@ -81,5 +81,10 @@ template "/etc/my.cnf" do
   variables(
     :cluster_members => cluster_members
   )
+  notifies :restart, "service[mysql]"
 end
 
+service "mysql" do 
+  support :restart => true, :status => true
+  action [:enable, :start]
+end
